@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Webdesainku</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #333;
+    }
+
+    header {
+      background-color: #ffcc00;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a {
+      margin-left: 15px;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+
+    .cart-icon {
+      position: relative;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: red;
+      color: white;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 50%;
+    }
+
+    .hero {
+      background-color: #111;
+      color: white;
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+    }
+
+    .button {
+      background-color: #ffcc00;
+      color: black;
+      padding: 10px 20px;
+      border: none;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    section {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .kategori-item {
+      margin: 20px 0;
+    }
+
+    .kategori-item button {
+      margin-top: 10px;
+    }
+
+    #keranjang ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    #keranjang li {
+      margin: 10px 0;
+      background: #eee;
+      padding: 10px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    form input, form textarea {
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    footer {
+      background-color: #111;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Webdesainku</div>
+  <nav>
+    <a href="#kategori">Kategori</a>
+    <a href="#jasa">Jasa</a>
+    <a href="#kontak">Kontak</a>
+    <a href="#keranjang" class="cart-icon">
+      🛒<span class="cart-count">0</span>
+    </a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>Solusi Desain Terbaik untuk Bisnis Anda</h1>
+  <p>Kami membantu membuat identitas visual yang kuat untuk usaha Anda.</p>
+  <button class="button">Lihat Toko</button>
+  <button class="button">Pesan Jasa</button>
+</div>
+
+<section id="kategori">
+  <h2>Kategori Toko</h2>
+
+  <div class="kategori-item">
+    <h3>UI/UX</h3>
+    <button type="button" onclick="tambahKeKeranjang('Desain UI/UX')">Tambah ke Keranjang</button>
+  </div>
+
+  <div class="kategori-item">
+    <h3>Logo</h3>
+    <button type="button" onclick="tambahKeKeranjang('Desain Logo')">Tambah ke Keranjang</button>
+  </div>
+
+  <div class="kategori-item">
+    <h3>Poster</h3>
+    <button type="button" onclick="tambahKeKeranjang('Desain Poster')">Tambah ke Keranjang</button>
+  </div>
+</section>
+
+<section id="tentang">
+  <h2>Tentang Kami</h2>
+  <p>Kami adalah tim desainer berpengalaman yang siap membantu Anda membangun citra profesional dengan desain yang berkualitas.</p>
+</section>
+
+<section id="jasa">
+  <h2>Jasa Kami</h2>
+  <p>✔ Desain UI/UX<br>✔ Desain Logo<br>✔ Desain Poster</p>
+</section>
+
+<section id="pemesanan">
+  <h2>Cara Pemesanan</h2>
+  <p>1. Order → 2. Desain → 3. Approve → 4. Selesai</p>
+</section>
+
+<section id="keranjang">
+  <h2>🛒 Keranjang Anda</h2>
+  <ul id="daftar-keranjang"></ul>
+  <button onclick="checkout()">Checkout</button>
+</section>
+
+<section id="kontak">
+  <h2>Hubungi Kami</h2>
+  <form>
+    <input type="text" placeholder="Nama" required>
+    <input type="email" placeholder="Email" required>
+    <textarea placeholder="Pesan Anda"></textarea>
+    <button class="button" type="submit">Kirim</button>
+  </form>
+</section>
+
+<footer>
+  <p>Ikuti kami: 
+    <a href="#" style="color:#ffcc00">Instagram</a> | 
+    <a href="#" style="color:#ffcc00">WhatsApp</a>
+  </p>
+  <p>&copy; 2025 Webdesainku. All rights reserved.</p>
+</footer>
+
+<script>
+  window.onload = function () {
+    let keranjang = [];
+
+    function tambahKeKeranjang(item) {
+      keranjang.push(item);
+      tampilkanKeranjang();
+    }
+
+    function tampilkanKeranjang() {
+      const list = document.getElementById("daftar-keranjang");
+      list.innerHTML = "";
+      keranjang.forEach((item, index) => {
+        list.innerHTML += <li>${item} <button onclick="hapusItem(${index})">Hapus</button></li>;
+      });
+
+      const cartCount = document.querySelector(".cart-count");
+      if (cartCount) {
+        cartCount.textContent = keranjang.length;
+      }
+    }
+
+    function hapusItem(index) {
+      keranjang.splice(index, 1);
+      tampilkanKeranjang();
+    }
+
+    function checkout() {
+      if (keranjang.length === 0) {
+        alert("Keranjang kosong!");
+        return;
+      }
+      alert("Terima kasih, pesanan Anda:\n" + keranjang.join("\n"));
+      keranjang = [];
+      tampilkanKeranjang();
+    }
+
+    // Expose fungsi agar bisa diakses dari onclick
+    window.tambahKeKeranjang = tambahKeKeranjang;
+    window.checkout = checkout;
+    window.hapusItem = hapusItem;
+  };
+</script>
+
+</body>
+</html>
